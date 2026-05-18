@@ -1,9 +1,9 @@
 # LEG_MRI
-To develop an automated thigh Dixon MRI phenotyping pipeline for early dysglycemia screening and evaluate its clinical interpretability via static metabolic profiling and dynamic physiological mapping.An automated 3D convolutional neural network based on the nnU-Net framework was implemented to delineate skeletal muscle, IMAT, subcutaneous fat, and bone from the thigh Dixon MRI. Inputs included water, fat, and fatfraction (FF) images(27)
+Function and details of the code:
 
-The function of the code:
+Preprocess stage:
 
-1.split-new.py:
+split-new.py:
 The core purpose of this script is: To automatically split raw Dixon MRI DICOM data into multiple independent NIfTI (.nii.gz) image series.
 
 Overall workflow:
@@ -22,7 +22,9 @@ Five different MRI image series, including:Water image，Fat image，Fat Fractio
 output format: .nii.gz
 output directory structure: dixon_water, dixon_fat, dixon_ff, series_3, series_4 (series_3,series_4 is other Dixon-related series)
 
-2.trainer:
+Training stage:
+
+trainer.py:
 The core purpose of this script is: To train a medical image segmentation model.
 
 It's built upon nnU-Net and forms a complete deep learning training framework for medical imaging.
