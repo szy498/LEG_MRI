@@ -19,12 +19,14 @@ Its main objective is: To convert raw hospital MRI data into standardized nnUNet
 final_output:
 Five different MRI image series, including:Water image，Fat image，Fat Fraction image，Other Dixon-related series
 
-output format: .nii.gz
+output format : .nii.gz
+
 output directory structure: dixon_water, dixon_fat, dixon_ff, series_3, series_4 (series_3,series_4 is other Dixon-related series)
 
 Training stage:
 
 trainer.py:
+
 The core purpose of this script is: To train a medical image segmentation model.
 
 It's built upon nnU-Net and forms a complete deep learning training framework for medical imaging.
