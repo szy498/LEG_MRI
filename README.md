@@ -7,6 +7,7 @@ split-new.py:
 The core purpose of this script is: To automatically split raw Dixon MRI DICOM data into multiple independent NIfTI (.nii.gz) image series.
 
 Overall workflow :
+
 Read raw DICOM images
 -> Convert MRI data into 3D arrays
 -> Split the volume into fixed slice blocks
@@ -32,6 +33,7 @@ The core purpose of this script is: To train a medical image segmentation model.
 It's built upon nnU-Net and forms a complete deep learning training framework for medical imaging.
 
 Over workflow:
+
 Load training data
 -> Apply data augmentation
 -> Build neural network
@@ -74,6 +76,7 @@ input:
   3.label file with (Patient_ID,Diabetes_Status,BMI,Age,Sex)
 
 output:
+
   1.NestedCV_Results:Detailed performance metrics for each outer fold, each model, and each feature strategy
   
   2.Paper-level summary table (Bootstrap 95% CI)
