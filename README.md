@@ -42,44 +42,68 @@ Load training data
 -> Save the best-performing model
 
 The pipeline includes:
-MRI image loading
-Data augmentation
-Dice Loss + Cross Entropy Loss
-Mixed precision training
-Validation Dice evaluation
-Checkpoint saving
-Multi-GPU training support
+  
+  MRI image loading
+  
+  Data augmentation
+  
+  Dice Loss + Cross Entropy Loss
+  
+  Mixed precision training
+  
+  Validation Dice evaluation
+  
+  Checkpoint saving
+  
+  Multi-GPU training support
 
-The final output includes a trained medical image segmentation model as well as Best model weight files, Checkpoints, Validation Dice metrics, Training logs, Model performance results
+The final output includes a trained medical image segmentation model as well as Best model weight files, Checkpoints, Validation Dice metrics, Training logs, Model performance results.
 
-Typical output files include: checkpoint_best.pth, checkpoint_final.pth, training_log.txt
+Typical output files include: checkpoint_best.pth, checkpoint_final.pth, training_log.txt.
 
 Predicting stage:
 
 The main purpose of this code is constructing glucose metabolism disorder predicting meodel based on image feature(Quantitative + Radiomics), evaluating the performance of three classifiers (LR, RF, XGBoost) under seven feature strategies within a nested cross‑validation framework, and conduct feature interpretability analysis using SHAP.
 
 input:
+
   1.Radiomics feature matrix (one subject per row, including Patient_ID)  radiomics.xlsx ,etc.
+ 
   2.Quantitative feature metrix (rate of volume, SMFF statistics, etc. 
+  
   3.label file with (Patient_ID,Diabetes_Status,BMI,Age,Sex)
 
 output:
   1.NestedCV_Results:Detailed performance metrics for each outer fold, each model, and each feature strategy
+  
   2.Paper-level summary table (Bootstrap 95% CI)
+  
   3.outer_test_predictions.npz – Outer-fold pooled predictions of the optimal model (for DeLong test)
+  
   4.Feature_Stability.xlsx – LASSO feature selection stability (frequency of each feature being selected)
+  
   5.SHAP.xlsx – SHAP feature importance ranking of the optimal model
+  
   6._ROC.png – ROC curves of the optimal model for each strategy
+  
   7.Univariate_LR_Results.xlsx – Univariate logistic regression results for direct quantitative features (OR, CI, p-value)
 
 Overall Code Structure and Writing Logic
+
 Module1 : Radiomics Feature Modeling (Lines 1–250)
+
   1.Configuration and Data Loading (Lines 1–70)
+  
   2. Custom ROC Plotting Function
+  
   3. Nested Cross‑Validation Main Loop (Lines 75–175)
+  
   4. SHAP Feature Importance Calculation (Lines 80–120, embedded in main loop)
+  
   5. Post‑processing and Summarization (Lines 180–250)
+
 Module 2: Direct Quantitative Feature Modeling (Lines 255–500)
+
 Module 3: All‑Feature Modeling (Lines 503–670, commented out)
 
 radiocom_rongyu.py
@@ -88,13 +112,19 @@ Core Purpose:
 Evaluate the redundancy and stability of radiomics features – through multiple random data splits, identify which features can be stably retained across different training set splits (i.e., not filtered out due to collinearity).
 
 Inputs
+
   1.Radiomics feature matrix
+  
   2.Label file (used only for stratified splitting, not for feature filtering)
 
 Outputs
+
   1.Stratified 70%/30% split for each run
+  
   2.List of features retained in each run
+  
   3.Summary: frequency each feature is retained across n_splits runs
+  
   4.Bar chart of top 30 most stable features
 
 Overall Code Structure and Writing Logic
