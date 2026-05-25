@@ -128,7 +128,11 @@ Outputs
   4.Bar chart of top 30 most stable features
 
 Overall Code Structure and Writing Logic
+
   Step 1 (Lines 1–25): Configuration
+  
   Step 2 (Line 30): Main loop
+  
   Step 3 (Lines 65–90): Summarize stability
+  
   Step 4 (Lines 92–110): Visualization
