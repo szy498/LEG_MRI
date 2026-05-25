@@ -6,7 +6,7 @@ Preprocess stage:
 split-new.py:
 The core purpose of this script is: To automatically split raw Dixon MRI DICOM data into multiple independent NIfTI (.nii.gz) image series.
 
-Overall workflow:
+Overall workflow :
 Read raw DICOM images
 -> Convert MRI data into 3D arrays
 -> Split the volume into fixed slice blocks
