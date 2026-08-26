@@ -1,0 +1,3 @@
+# Upstream release tag v3.1.0, resolved to an immutable commit.
+# Install AFTER NumPy with --no-build-isolation; see docs/installation.md.
+pyradiomics @ https://github.com/AIM-Harvard/pyradiomics/archive/6a761c4eb01905cfcb1139b0b158547c55edd4df.zip

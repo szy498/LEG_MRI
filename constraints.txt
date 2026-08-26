@@ -1,0 +1,24 @@
+# Tested core and compatible optional dependency bounds.
+numpy==1.26.4
+scipy==1.14.1
+pandas==2.2.3
+scikit-learn==1.5.2
+statsmodels==0.14.4
+matplotlib==3.9.4
+PyYAML==6.0.2
+openpyxl==3.1.5
+SimpleITK==2.4.1
+pydicom==3.0.1
+torch==2.6.0
+torchvision==0.21.0
+nnunetv2==2.6.2
+dynamic-network-architectures==0.4.2
+imagecodecs==2024.6.1
+blosc2==3.0.0
+scikit-image==0.25.2
+numba==0.61.2
+xgboost==2.1.4
+shap==0.46.0
+pytest==8.3.5
+ruff==0.12.10
+pyparsing==3.2.3
