@@ -1,0 +1,3 @@
+Patient_ID,water,fat,ff,manual_mask
+sub-001,data/sub-001/water.nii.gz,data/sub-001/fat.nii.gz,data/sub-001/ff.nii.gz,data/sub-001/manual_mask.nii.gz
+

@@ -1,0 +1,72 @@
+# Main manuscript + Supplementary Methods S1/S2. End-to-end imaging and ML.
+seed: 42
+id_col: Patient_ID
+target: Diabetes_Status
+clinical: [Age, Sex, BMI]
+labels: {background: 0, IMAT: 1, Subcutaneous_Fat: 2, Muscle: 3, Bone: 4}
+segmentation:
+  dataset_id: 501
+  dataset_name: ThighDixon
+  channels: [water, fat, ff]
+  test_fraction: 0.2
+  folds: 5
+  patch_size: [71, 432, 432]
+  batch_size: 2
+  features_per_stage: [32, 64, 128, 256, 320, 320]
+  strides: [[1, 1, 1], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2]]
+  epochs: 120
+  iterations_per_epoch: 250
+  validation_iterations: 50
+  learning_rate: 0.001
+  weight_decay: 0.00003
+  imat_weight: 1.5
+  dice_background: false
+  # Fixed final epoch avoids selecting a checkpoint on each OOF subject's reference mask.
+  checkpoint: checkpoint_final.pth
+extraction:
+  modalities: [water, fat]
+  ff_divisor: 100.0
+  water_normalization: zscore
+  fat_normalization: none
+  # Scale the per-volume z-score by 100 before discretization.
+  water_normalize_scale: 100.0
+  bin_width: 25.0
+  minimum_roi_voxels: 10
+  tissues: [IMAT, Subcutaneous_Fat, Muscle, Bone]
+  feature_families: [firstorder, shape, glcm]
+feature_aliases:
+  IMAT_to_（IMAT+Muscle）: IMAT_to_IMAT_Muscle
+  IMAT_to_(IMAT+Muscle): IMAT_to_IMAT_Muscle
+selection:
+  correlation_threshold: 0.9
+  # Absolute Spearman correlation; earlier names have interpretation priority.
+  priority: [IMAT_to_Muscle, IMAT_to_SoftTissue, SubFat_to_SoftTissue, SMFF_mean]
+  excluded_suffixes: [SurfaceVolumeRatio, Maximum3DDiameter, Maximum2DDiameterSlice,
+                      Maximum2DDiameterColumn, Maximum2DDiameterRow, MajorAxisLength,
+                      MinorAxisLength, LeastAxisLength]
+  texture_stability_splits: 10
+  texture_train_fraction: 0.7
+  texture_frequency: 0.8
+  integration_folds: 5
+  integration_frequency: 0.8
+  lasso_c: [0.001, 0.001623776739, 0.002636650899, 0.004281332399, 0.006951927962,
+            0.01128837892, 0.01832980711, 0.02976351442, 0.04832930239, 0.07847599704,
+            0.1274274986, 0.2069138081, 0.3359818286, 0.5455594781, 0.8858667904,
+            1.438449888, 2.335721469, 3.792690191, 6.158482111, 10.0]
+cv:
+  outer_folds: 5
+  outer_repeats: 2
+  inner_folds: 5
+  inner_repeats: 2
+  inner_seed: 7
+  threshold: 0.5
+  bootstrap: 2000
+  n_jobs: 1
+  shap: true
+  models: [LR, RF, XGB]
+  strategies: [Clinical_Only, Quantitative_Only, Radiomics_Only, Image_Only,
+               Quantitative_Clinical, Radiomics_Clinical, Image_Clinical]
+  grids:
+    LR: {C: [0.001, 0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10]}
+    RF: {n_estimators: [200, 300], max_depth: [3, 5], min_samples_leaf: [1, 2, 4], max_features: [sqrt, 0.5]}
+    XGB: {n_estimators: [100, 200], max_depth: [2, 3], learning_rate: [0.01, 0.05], subsample: [0.8, 1.0], colsample_bytree: [0.8, 1.0]}
